@@ -12,7 +12,7 @@ use std::collections::HashMap;
 const SERVICE_URL: &str = "http://localhost:8000";
 
 /// HTTP client wrapper for tests.
-struct ClientTest {
+pub struct ClientTest {
     client: Client,
     status_code: StatusCode,
 }
