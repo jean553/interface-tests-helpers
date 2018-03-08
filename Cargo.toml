@@ -2,6 +2,11 @@
 name = "rust-interface-tests-helper"
 version = "0.1.0"
 authors = ["vagrant"]
+repository = "https://github.com/jean553/rust-interface-tests-helper"
 
 [dependencies]
 reqwest = "*"
+
+[lib]
+name = "rust-interface-tests-helper"
+path = "https://github.com/jean553/rust-interface-tests-helper"
