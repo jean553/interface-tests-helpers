@@ -1,5 +1,5 @@
 [package]
-name = "interface-tests-helper"
+name = "rust-interface-tests-helper"
 version = "0.1.0"
 authors = ["vagrant"]
 
