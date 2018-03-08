@@ -8,5 +8,5 @@ repository = "https://github.com/jean553/rust-interface-tests-helper"
 reqwest = "*"
 
 [lib]
-name = "rust-interface-tests-helper"
-path = "https://github.com/jean553/rust-interface-tests-helper"
+name = "rust_interface_tests_helper"
+path = "src/lib.rs"
