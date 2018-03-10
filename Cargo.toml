@@ -7,6 +7,9 @@ repository = "https://github.com/jean553/rust-interface-tests-helper"
 [dependencies]
 reqwest = "*"
 
+[dev-dependencies]
+mockito = "*"
+
 [lib]
 name = "rust_interface_tests_helper"
 path = "src/lib.rs"
