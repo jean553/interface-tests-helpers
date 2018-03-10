@@ -73,4 +73,4 @@ mod lib {
 }
 
 #[cfg(test)]
-mod tests_get;
+mod tests_post;
