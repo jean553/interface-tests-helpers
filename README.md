@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/jean553/rust-interface-tests-helper.svg?branch=master)](https://travis-ci.org/jean553/rust-interface-tests-helper)
+
 # rust-interface-tests-helper
 
 Routines for HTTP interface testing in Rust.
