@@ -2,6 +2,12 @@
 
 Routines for HTTP interface testing in Rust.
 
+## Table of contents
+- [Development](#development)
+- [Generate documentation](#generate-documentation)
+- [Usage](#usage)
+- [Tests](#tests)
+
 ## Development
 
 Build the development container.
@@ -40,4 +46,10 @@ fn test() {
 
     client.assert_200();
 }
+```
+
+## Tests
+
+```rust
+cargo test
 ```
