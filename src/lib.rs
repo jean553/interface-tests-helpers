@@ -2,7 +2,7 @@
 
 extern crate reqwest;
 
-mod lib {
+pub mod lib {
 
     use reqwest::{
         Client,
