@@ -9,11 +9,33 @@ mod tests {
         ResponseHandler,
     };
 
-    use reqwest::Client;
+    use reqwest::{
+        Client,
+        Response,
+    };
 
     use tests_post::mockito::mock;
 
     use std::collections::HashMap;
+
+    trait ResourceHandler {
+
+        fn post_resource(&self, json: &HashMap<&str, &str>) -> Response;
+    }
+
+    impl ResourceHandler for Client {
+
+        fn post_resource(
+            &self,
+            json: &HashMap<&str, &str>,
+        ) -> Response {
+
+            return self.post_json(
+                "/resource",
+                json,
+            );
+        }
+    }
 
     #[test]
     fn test_post() {
@@ -28,7 +50,7 @@ mod tests {
         json.insert("key", "value");
 
         let client = Client::new();
-        let response = client.post_json(API, &json);
+        let response = client.post_resource(&json);
 
         response.assert_201();
     }
