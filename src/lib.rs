@@ -12,7 +12,10 @@ mod lib {
 
     use std::collections::HashMap;
 
-    const SERVICE_URL: &str = "http://localhost:1234";
+    pub trait HasBaseUrl {
+
+        fn get_base_url(&self) -> &str;
+    }
 
     pub trait ClientHandler {
 
@@ -38,16 +41,10 @@ mod lib {
             json: &HashMap<&str, &str>,
         ) -> Response {
 
-            let url = format!(
-                "{}{}",
-                SERVICE_URL,
-                url,
-            );
-
-            return self.post(&url)
+            self.post(url)
                 .json(json)
                 .send()
-                .unwrap();
+                .unwrap()
         }
     }
 

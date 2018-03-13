@@ -41,6 +41,7 @@ mod tests {
     use lib::{
         ClientHandler,
         ResponseHandler,
+        HasBaseUrl,
     };
 
     use reqwest::{
@@ -49,6 +50,18 @@ mod tests {
     };
 
     use std::collections::HashMap;
+
+    impl HasBaseUrl for Client {
+
+        /// Returns the service base URL.
+        ///
+        /// # Returns:
+        ///
+        /// the service base URL.
+        fn get_base_url(&self) -> &str {
+            "http://localhost:1234"
+        }
+    }
 
     trait ResourceHandler {
 

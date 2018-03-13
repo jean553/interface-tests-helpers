@@ -7,6 +7,7 @@ mod tests {
     use lib::{
         ClientHandler,
         ResponseHandler,
+        HasBaseUrl,
     };
 
     use reqwest::{
@@ -17,6 +18,18 @@ mod tests {
     use tests_post::mockito::mock;
 
     use std::collections::HashMap;
+
+    impl HasBaseUrl for Client {
+
+        /// Returns the service base URL.
+        ///
+        /// # Returns:
+        ///
+        /// the service base URL.
+        fn get_base_url(&self) -> &str {
+            "http://localhost:1234"
+        }
+    }
 
     trait ResourceHandler {
 
@@ -35,10 +48,10 @@ mod tests {
             json: &HashMap<&str, &str>,
         ) -> Response {
 
-            return self.post_json(
-                "/resource",
+            self.post_json(
+                &format!("{}/resource", self.get_base_url()),
                 json,
-            );
+            )
         }
     }
 
