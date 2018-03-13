@@ -2,62 +2,59 @@
 
 extern crate reqwest;
 
-pub mod lib {
+use reqwest::{
+    Client,
+    Response,
+    StatusCode,
+};
 
-    use reqwest::{
-        Client,
-        Response,
-        StatusCode,
-    };
+use std::collections::HashMap;
 
-    use std::collections::HashMap;
+pub trait HasBaseUrl {
 
-    pub trait HasBaseUrl {
+    fn get_base_url(&self) -> &str;
+}
 
-        fn get_base_url(&self) -> &str;
+pub trait ClientHandler {
+
+    fn post_json(&self, url: &str, json: &HashMap<&str, &str>) -> Response;
+}
+
+pub trait ResponseHandler {
+
+    fn assert_201(&self);
+}
+
+impl ClientHandler for Client {
+
+    /// Perform a POST request to send JSON and stores its result
+    ///
+    /// # Args:
+    ///
+    /// `url` - the suffix of the URL
+    /// `json` - the json data to send
+    fn post_json(
+        &self,
+        url: &str,
+        json: &HashMap<&str, &str>,
+    ) -> Response {
+
+        self.post(url)
+            .json(json)
+            .send()
+            .unwrap()
     }
+}
 
-    pub trait ClientHandler {
+impl ResponseHandler for Response {
 
-        fn post_json(&self, url: &str, json: &HashMap<&str, &str>) -> Response;
-    }
+    /// Assertion that checks the response status code is 201
+    fn assert_201(&self) {
 
-    pub trait ResponseHandler {
-
-        fn assert_201(&self);
-    }
-
-    impl ClientHandler for Client {
-
-        /// Perform a POST request to send JSON and stores its result
-        ///
-        /// # Args:
-        ///
-        /// `url` - the suffix of the URL
-        /// `json` - the json data to send
-        fn post_json(
-            &self,
-            url: &str,
-            json: &HashMap<&str, &str>,
-        ) -> Response {
-
-            self.post(url)
-                .json(json)
-                .send()
-                .unwrap()
-        }
-    }
-
-    impl ResponseHandler for Response {
-
-        /// Assertion that checks the response status code is 201
-        fn assert_201(&self) {
-
-            assert_eq!(
-                self.status(),
-                StatusCode::Created,
-            );
-        }
+        assert_eq!(
+            self.status(),
+            StatusCode::Created,
+        );
     }
 }
 
