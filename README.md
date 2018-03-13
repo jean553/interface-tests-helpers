@@ -35,18 +35,64 @@ cargo rustdoc -- --document-private-items
 ```rust
 extern crate rust_interface_tests_helper;
 
-use rust_interface_tests_helper::ClientTest;
+#[cfg(test)]
+mod tests {
 
-#[test]
-fn test() {
+    use lib::{
+        ClientHandler,
+        ResponseHandler,
+    };
 
-    let json = HashMap::new();
-    json.insert("key", "value");
+    use reqwest::{
+        Client,
+        Response,
+    };
 
-    let mut client = ClientTest::new();
-    client.post_json("/api/1/resource", &json);
+    use tests_post::mockito::mock;
 
-    client.assert_200();
+    use std::collections::HashMap;
+
+    trait ResourceHandler {
+
+        fn post_resource(&self, json: &HashMap<&str, &str>) -> Response;
+    }
+
+    impl ResourceHandler for Client {
+
+        /// Example of "per resource implementation" method.
+        ///
+        /// # Arguments:
+        ///
+        /// `json` - the json data to send
+        fn post_resource(
+            &self,
+            json: &HashMap<&str, &str>,
+        ) -> Response {
+
+            return self.post_json(
+                "/resource",
+                json,
+            );
+        }
+    }
+
+    #[test]
+    fn test_post() {
+
+        const API: &str = "/resource";
+        let _m = mock("POST", API)
+            .with_status(201)
+            .with_body("OK")
+            .create();
+
+        let mut json: HashMap<&str, &str> = HashMap::new();
+        json.insert("key", "value");
+
+        let client = Client::new();
+        let response = client.post_resource(&json);
+
+        response.assert_201();
+    }
 }
 ```
 
