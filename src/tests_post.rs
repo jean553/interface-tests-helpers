@@ -1,11 +1,17 @@
 extern crate mockito;
+extern crate reqwest;
 
 #[cfg(test)]
 mod tests {
 
-    use tests_post::mockito::mock;
+    use lib::{
+        ClientHandler,
+        ResponseHandler,
+    };
 
-    use lib::ClientTest;
+    use reqwest::Client;
+
+    use tests_post::mockito::mock;
 
     use std::collections::HashMap;
 
@@ -21,13 +27,9 @@ mod tests {
         let mut json: HashMap<&str, &str> = HashMap::new();
         json.insert("key", "value");
 
-        let mut client = ClientTest::new();
+        let client = Client::new();
+        let response = client.post_json(API, &json);
 
-        client.post_json(
-            API,
-            &json,
-        );
-
-        client.assert_201();
+        response.assert_201();
     }
 }

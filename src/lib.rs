@@ -6,6 +6,7 @@ mod lib {
 
     use reqwest::{
         Client,
+        Response,
         StatusCode,
     };
 
@@ -13,28 +14,17 @@ mod lib {
 
     const SERVICE_URL: &str = "http://localhost:1234";
 
-    /// HTTP client wrapper for tests.
-    pub struct ClientTest {
-        client: Client,
-        status_code: StatusCode,
+    pub trait ClientHandler {
+
+        fn post_json(&self, url: &str, json: &HashMap<&str, &str>) -> Response;
     }
 
-    impl ClientTest {
+    pub trait ResponseHandler {
 
-        /// Initializes the tests client (dummy values for the response attributes)
-        ///
-        /// # Returns:
-        ///
-        /// the tests client to use
-        pub fn new() -> ClientTest {
-            ClientTest {
-                client: Client::new(),
+        fn assert_201(&self);
+    }
 
-                /* no Option<T> used here, would be None
-                   only until the first request */
-                status_code: StatusCode::Ok,
-            }
-        }
+    impl ClientHandler for Client {
 
         /// Perform a POST request to send JSON and stores its result
         ///
@@ -42,30 +32,32 @@ mod lib {
         ///
         /// `url` - the suffix of the URL
         /// `json` - the json data to send
-        pub fn post_json(
-            &mut self,
+        fn post_json(
+            &self,
             url: &str,
             json: &HashMap<&str, &str>,
-        ) {
+        ) -> Response {
+
             let url = format!(
                 "{}{}",
                 SERVICE_URL,
                 url,
             );
 
-            let response = self.client.post(&url)
+            return self.post(&url)
                 .json(json)
                 .send()
                 .unwrap();
-
-            self.status_code = response.status();
         }
+    }
+
+    impl ResponseHandler for Response {
 
         /// Assertion that checks the response status code is 201
-        pub fn assert_201(&self) {
+        fn assert_201(&self) {
 
             assert_eq!(
-                self.status_code,
+                self.status(),
                 StatusCode::Created,
             );
         }
