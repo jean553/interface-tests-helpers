@@ -48,8 +48,6 @@ mod tests {
         Response,
     };
 
-    use tests_post::mockito::mock;
-
     use std::collections::HashMap;
 
     trait ResourceHandler {
@@ -78,12 +76,6 @@ mod tests {
 
     #[test]
     fn test_post() {
-
-        const API: &str = "/resource";
-        let _m = mock("POST", API)
-            .with_status(201)
-            .with_body("OK")
-            .create();
 
         let mut json: HashMap<&str, &str> = HashMap::new();
         json.insert("key", "value");
