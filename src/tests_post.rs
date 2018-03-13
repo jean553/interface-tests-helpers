@@ -25,6 +25,11 @@ mod tests {
 
     impl ResourceHandler for Client {
 
+        /// Example of "per resource implementation" method.
+        ///
+        /// # Arguments:
+        ///
+        /// `json` - the json data to send
         fn post_resource(
             &self,
             json: &HashMap<&str, &str>,
