@@ -4,11 +4,8 @@ extern crate reqwest;
 #[cfg(test)]
 mod tests {
 
-    use lib::{
-        ClientHandler,
-        ResponseHandler,
-        HasBaseUrl,
-    };
+    use ClientHandler;
+    use ResponseHandler;
 
     use reqwest::{
         Client,
@@ -18,6 +15,11 @@ mod tests {
     use tests_post::mockito::mock;
 
     use std::collections::HashMap;
+
+    trait HasBaseUrl {
+
+        fn get_base_url(&self) -> &str;
+    }
 
     impl HasBaseUrl for Client {
 
