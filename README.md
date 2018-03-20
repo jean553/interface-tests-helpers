@@ -103,6 +103,8 @@ mod tests {
 
 ## Tests
 
+One thread only must be used (the mocked URL is updated for every test but remains the same every time).
+
 ```rust
-cargo test
+cargo test -- --test-threads=1
 ```
