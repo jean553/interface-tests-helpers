@@ -35,6 +35,8 @@ pub trait ResponseHandler {
     fn assert_400(&self);
 
     fn assert_409(&self);
+
+    fn assert_500(&self);
 }
 
 impl ClientHandler for Client {
@@ -127,6 +129,15 @@ impl ResponseHandler for Response {
         assert_eq!(
             self.status(),
             StatusCode::Conflict,
+        );
+    }
+
+    /// Assertion that checks the response status code is 500
+    fn assert_500(&self) {
+
+        assert_eq!(
+            self.status(),
+            StatusCode::InternalServerError,
         );
     }
 }
