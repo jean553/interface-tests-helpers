@@ -19,7 +19,7 @@ pub trait ClientHandler {
 
     fn post_json(&self, url: &str, json: &HashMap<&str, &str>) -> Response;
 
-    fn post_body(&self, url: &str, body: String) -> Response;
+    fn post_body(&self, url: &str, body: &str) -> Response;
 }
 
 pub trait ResponseHandler {
@@ -60,11 +60,11 @@ impl ClientHandler for Client {
     fn post_body(
         &self,
         url: &str,
-        body: String,
+        body: &str,
     ) -> Response {
 
         self.post(url)
-            .body(body)
+            .body(body.to_string())
             .send()
             .unwrap()
     }

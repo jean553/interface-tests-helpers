@@ -37,7 +37,7 @@ mod tests {
 
         fn post_json_resource(&self, json: &HashMap<&str, &str>) -> Response;
 
-        fn post_body_resource(&self, body: String) -> Response;
+        fn post_body_resource(&self, body: &str) -> Response;
     }
 
     impl ResourceHandler for Client {
@@ -65,7 +65,7 @@ mod tests {
         /// `body` - the raw body to send
         fn post_body_resource(
             &self,
-            body: String,
+            body: &str,
         ) -> Response {
 
             self.post_body(
