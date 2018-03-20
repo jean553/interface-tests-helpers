@@ -36,11 +36,13 @@ mod tests {
     trait ResourceHandler {
 
         fn post_json_resource(&self, json: &HashMap<&str, &str>) -> Response;
+
+        fn post_body_resource(&self, body: String) -> Response;
     }
 
     impl ResourceHandler for Client {
 
-        /// Example of "per resource implementation" method.
+        /// Example of "per resource implementation" method to post JSON.
         ///
         /// # Arguments:
         ///
@@ -53,6 +55,22 @@ mod tests {
             self.post_json(
                 &format!("{}/resource", self.get_base_url()),
                 json,
+            )
+        }
+
+        /// Example of "per resource implementation" method to post raw body.
+        ///
+        /// # Arguments:
+        ///
+        /// `body` - the raw body to send
+        fn post_body_resource(
+            &self,
+            body: String,
+        ) -> Response {
+
+            self.post_body(
+                &format!("{}/resource", self.get_base_url()),
+                body,
             )
         }
     }
