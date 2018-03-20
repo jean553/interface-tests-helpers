@@ -3,4 +3,4 @@ rust:
     - nightly
 
 script:
-    - cargo test
+    - cargo test -- --test-threads=1

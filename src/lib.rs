@@ -19,12 +19,16 @@ pub trait HasBaseUrl {
 
 pub trait ClientHandler {
 
+    fn get(&self, url: &str) -> Response;
+
     fn post_json(&self, url: &str, json: &HashMap<&str, &str>) -> Response;
 
     fn post_body(&self, url: &str, body: &str) -> Response;
 }
 
 pub trait ResponseHandler {
+
+    fn assert_200(&self);
 
     fn assert_201(&self);
 
@@ -34,6 +38,21 @@ pub trait ResponseHandler {
 }
 
 impl ClientHandler for Client {
+
+    /// Perform a GET request without parameter
+    ///
+    /// # Args:
+    ///
+    /// `url` - the suffix of the URL
+    fn get(
+        &self,
+        url: &str,
+    ) -> Response {
+
+        self.get(url)
+            .send()
+            .unwrap()
+    }
 
     /// Perform a POST request to send JSON and stores its result
     ///
@@ -74,6 +93,15 @@ impl ClientHandler for Client {
 }
 
 impl ResponseHandler for Response {
+
+    /// Assertion that checks the response status code is 200
+    fn assert_200(&self) {
+
+        assert_eq!(
+            self.status(),
+            StatusCode::Ok,
+        );
+    }
 
     /// Assertion that checks the response status code is 201
     fn assert_201(&self) {
