@@ -35,7 +35,7 @@ mod tests {
 
     trait ResourceHandler {
 
-        fn post_resource(&self, json: &HashMap<&str, &str>) -> Response;
+        fn post_json_resource(&self, json: &HashMap<&str, &str>) -> Response;
     }
 
     impl ResourceHandler for Client {
@@ -45,7 +45,7 @@ mod tests {
         /// # Arguments:
         ///
         /// `json` - the json data to send
-        fn post_resource(
+        fn post_json_resource(
             &self,
             json: &HashMap<&str, &str>,
         ) -> Response {
@@ -70,7 +70,7 @@ mod tests {
         json.insert("key", "value");
 
         let client = Client::new();
-        let response = client.post_resource(&json);
+        let response = client.post_json_resource(&json);
 
         response.assert_201();
     }
@@ -86,7 +86,7 @@ mod tests {
         let json: HashMap<&str, &str> = HashMap::new();
 
         let client = Client::new();
-        let response = client.post_resource(&json);
+        let response = client.post_json_resource(&json);
 
         response.assert_400();
     }
@@ -103,7 +103,7 @@ mod tests {
         json.insert("key", "value");
 
         let client = Client::new();
-        let response = client.post_resource(&json);
+        let response = client.post_json_resource(&json);
 
         response.assert_409();
     }
