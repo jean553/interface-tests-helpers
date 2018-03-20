@@ -35,17 +35,19 @@ mod tests {
 
     trait ResourceHandler {
 
-        fn post_resource(&self, json: &HashMap<&str, &str>) -> Response;
+        fn post_json_resource(&self, json: &HashMap<&str, &str>) -> Response;
+
+        fn post_body_resource(&self, body: &str) -> Response;
     }
 
     impl ResourceHandler for Client {
 
-        /// Example of "per resource implementation" method.
+        /// Example of "per resource implementation" method to post JSON.
         ///
         /// # Arguments:
         ///
         /// `json` - the json data to send
-        fn post_resource(
+        fn post_json_resource(
             &self,
             json: &HashMap<&str, &str>,
         ) -> Response {
@@ -55,10 +57,26 @@ mod tests {
                 json,
             )
         }
+
+        /// Example of "per resource implementation" method to post raw body.
+        ///
+        /// # Arguments:
+        ///
+        /// `body` - the raw body to send
+        fn post_body_resource(
+            &self,
+            body: &str,
+        ) -> Response {
+
+            self.post_body(
+                &format!("{}/resource", self.get_base_url()),
+                body,
+            )
+        }
     }
 
     #[test]
-    fn test_post_returns_201() {
+    fn test_post_json_returns_201() {
 
         const API: &str = "/resource";
         let _m = mock("POST", API)
@@ -70,13 +88,13 @@ mod tests {
         json.insert("key", "value");
 
         let client = Client::new();
-        let response = client.post_resource(&json);
+        let response = client.post_json_resource(&json);
 
         response.assert_201();
     }
 
     #[test]
-    fn test_post_returns_400() {
+    fn test_post_json_returns_400() {
 
         const API: &str = "/resource";
         let _m = mock("POST", API)
@@ -86,13 +104,13 @@ mod tests {
         let json: HashMap<&str, &str> = HashMap::new();
 
         let client = Client::new();
-        let response = client.post_resource(&json);
+        let response = client.post_json_resource(&json);
 
         response.assert_400();
     }
 
     #[test]
-    fn test_post_returns_409() {
+    fn test_post_json_returns_409() {
 
         const API: &str = "/resource";
         let _m = mock("POST", API)
@@ -103,8 +121,23 @@ mod tests {
         json.insert("key", "value");
 
         let client = Client::new();
-        let response = client.post_resource(&json);
+        let response = client.post_json_resource(&json);
 
         response.assert_409();
+    }
+
+    #[test]
+    fn test_post_body_returns_201() {
+
+        const API: &str = "/resource";
+        let _m = mock("POST", API)
+            .with_status(201)
+            .with_body("OK")
+            .create();
+
+        let client = Client::new();
+        let response = client.post_body_resource("raw body");
+
+        response.assert_201();
     }
 }
