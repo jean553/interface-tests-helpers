@@ -23,6 +23,10 @@ pub trait ClientHandler {
 pub trait ResponseHandler {
 
     fn assert_201(&self);
+
+    fn assert_400(&self);
+
+    fn assert_409(&self);
 }
 
 impl ClientHandler for Client {
@@ -54,6 +58,24 @@ impl ResponseHandler for Response {
         assert_eq!(
             self.status(),
             StatusCode::Created,
+        );
+    }
+
+    /// Assertion that checks the response status code is 400
+    fn assert_400(&self) {
+
+        assert_eq!(
+            self.status(),
+            StatusCode::BadRequest,
+        );
+    }
+
+    /// Assertion that checks the response status code is 409
+    fn assert_409(&self) {
+
+        assert_eq!(
+            self.status(),
+            StatusCode::Conflict,
         );
     }
 }
