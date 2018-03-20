@@ -76,7 +76,7 @@ mod tests {
     }
 
     #[test]
-    fn test_post_returns_201() {
+    fn test_post_json_returns_201() {
 
         const API: &str = "/resource";
         let _m = mock("POST", API)
@@ -94,7 +94,7 @@ mod tests {
     }
 
     #[test]
-    fn test_post_returns_400() {
+    fn test_post_json_returns_400() {
 
         const API: &str = "/resource";
         let _m = mock("POST", API)
@@ -110,7 +110,7 @@ mod tests {
     }
 
     #[test]
-    fn test_post_returns_409() {
+    fn test_post_json_returns_409() {
 
         const API: &str = "/resource";
         let _m = mock("POST", API)
