@@ -125,4 +125,19 @@ mod tests {
 
         response.assert_409();
     }
+
+    #[test]
+    fn test_post_body_returns_201() {
+
+        const API: &str = "/resource";
+        let _m = mock("POST", API)
+            .with_status(201)
+            .with_body("OK")
+            .create();
+
+        let client = Client::new();
+        let response = client.post_body_resource("raw body");
+
+        response.assert_201();
+    }
 }
