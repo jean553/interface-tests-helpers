@@ -18,6 +18,8 @@ pub trait HasBaseUrl {
 pub trait ClientHandler {
 
     fn post_json(&self, url: &str, json: &HashMap<&str, &str>) -> Response;
+
+    fn post_body(&self, url: &str, body: String) -> Response;
 }
 
 pub trait ResponseHandler {
@@ -45,6 +47,24 @@ impl ClientHandler for Client {
 
         self.post(url)
             .json(json)
+            .send()
+            .unwrap()
+    }
+
+    /// Perform a POST request to send a raw body and stores its result
+    ///
+    /// # Args:
+    ///
+    /// `url` - the suffix of the URL
+    /// `body` - the body data to send (String format)
+    fn post_body(
+        &self,
+        url: &str,
+        body: String,
+    ) -> Response {
+
+        self.post(url)
+            .body(body)
             .send()
             .unwrap()
     }
