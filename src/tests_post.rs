@@ -58,7 +58,7 @@ mod tests {
     }
 
     #[test]
-    fn test_post() {
+    fn test_post_returns_201() {
 
         const API: &str = "/resource";
         let _m = mock("POST", API)
@@ -73,5 +73,38 @@ mod tests {
         let response = client.post_resource(&json);
 
         response.assert_201();
+    }
+
+    #[test]
+    fn test_post_returns_400() {
+
+        const API: &str = "/resource";
+        let _m = mock("POST", API)
+            .with_status(400)
+            .create();
+
+        let json: HashMap<&str, &str> = HashMap::new();
+
+        let client = Client::new();
+        let response = client.post_resource(&json);
+
+        response.assert_400();
+    }
+
+    #[test]
+    fn test_post_returns_409() {
+
+        const API: &str = "/resource";
+        let _m = mock("POST", API)
+            .with_status(409)
+            .create();
+
+        let mut json: HashMap<&str, &str> = HashMap::new();
+        json.insert("key", "value");
+
+        let client = Client::new();
+        let response = client.post_resource(&json);
+
+        response.assert_409();
     }
 }
