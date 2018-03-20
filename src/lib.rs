@@ -8,6 +8,8 @@ use reqwest::{
     StatusCode,
 };
 
+use reqwest::header::ContentType;
+
 use std::collections::HashMap;
 
 pub trait HasBaseUrl {
@@ -65,6 +67,7 @@ impl ClientHandler for Client {
 
         self.post(url)
             .body(body.to_string())
+            .header(ContentType::plaintext())
             .send()
             .unwrap()
     }
