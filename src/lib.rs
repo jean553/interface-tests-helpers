@@ -19,7 +19,7 @@ pub trait HasBaseUrl {
 
 pub trait ClientHandler {
 
-    fn get(&self, url: &str) -> Response;
+    fn get_url(&self, url: &str) -> Response;
 
     fn post_json(&self, url: &str, json: &HashMap<&str, &str>) -> Response;
 
@@ -46,7 +46,7 @@ impl ClientHandler for Client {
     /// # Args:
     ///
     /// `url` - the suffix of the URL
-    fn get(
+    fn get_url(
         &self,
         url: &str,
     ) -> Response {
