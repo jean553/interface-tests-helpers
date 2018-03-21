@@ -38,6 +38,8 @@ mod tests {
         fn post_json_resource(&self, json: &HashMap<&str, &str>) -> Response;
 
         fn post_body_resource(&self, body: &str) -> Response;
+
+        fn get_resource(&self) -> Response;
     }
 
     impl ResourceHandler for Client {
@@ -47,6 +49,10 @@ mod tests {
         /// # Arguments:
         ///
         /// `json` - the json data to send
+        ///
+        /// # Returns:
+        ///
+        /// reqwest response
         fn post_json_resource(
             &self,
             json: &HashMap<&str, &str>,
@@ -63,6 +69,10 @@ mod tests {
         /// # Arguments:
         ///
         /// `body` - the raw body to send
+        ///
+        /// # Returns:
+        ///
+        /// reqwest response
         fn post_body_resource(
             &self,
             body: &str,
@@ -72,6 +82,16 @@ mod tests {
                 &format!("{}/resource", self.get_base_url()),
                 body,
             )
+        }
+
+        /// Example of "per resource implementation" method to get URL.
+        ///
+        /// # Returns:
+        ///
+        /// reqwest response
+        fn get_resource(&self) -> Response {
+
+            self.get_url(&format!("{}/resource", self.get_base_url()))
         }
     }
 
@@ -139,5 +159,19 @@ mod tests {
         let response = client.post_body_resource("raw body");
 
         response.assert_201();
+    }
+
+    #[test]
+    fn test_get_returns_200() {
+
+        const API: &str = "/resource";
+        let _m = mock("GET", API)
+            .with_status(200)
+            .create();
+
+        let client = Client::new();
+        let response = client.get_resource();
+
+        response.assert_200();
     }
 }
