@@ -12,7 +12,7 @@ mod tests {
         Response,
     };
 
-    use tests_post::mockito::mock;
+    use tests::mockito::mock;
 
     use std::collections::HashMap;
 
