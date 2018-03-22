@@ -154,4 +154,4 @@ impl ResponseHandler for Response {
 }
 
 #[cfg(test)]
-mod tests_post;
+mod tests;
