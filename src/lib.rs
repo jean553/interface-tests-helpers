@@ -34,6 +34,8 @@ pub trait ResponseHandler {
 
     fn assert_201(&self);
 
+    fn assert_204(&self);
+
     fn assert_400(&self);
 
     fn assert_404(&self);
@@ -134,6 +136,15 @@ impl ResponseHandler for Response {
         assert_eq!(
             self.status(),
             StatusCode::Created,
+        );
+    }
+
+    /// Assertion that checks the response status code is 204
+    fn assert_204(&self) {
+
+        assert_eq!(
+            self.status(),
+            StatusCode::NoContent,
         );
     }
 
