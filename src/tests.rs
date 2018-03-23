@@ -194,6 +194,20 @@ mod tests {
     }
 
     #[test]
+    fn test_assert_204() {
+
+        const API: &str = "/resource";
+        let _m = mock("POST", API)
+            .with_status(204)
+            .create();
+
+        let client = Client::new();
+        let response = client.post_body_resource("raw body");
+
+        response.assert_204();
+    }
+
+    #[test]
     fn test_assert_404() {
 
         const API: &str = "/resource";
