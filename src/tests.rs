@@ -40,6 +40,8 @@ mod tests {
         fn post_body_resource(&self, body: &str) -> Response;
 
         fn get_resource(&self) -> Response;
+
+        fn update_resource(&self, body: &str) -> Response;
     }
 
     impl ResourceHandler for Client {
@@ -92,6 +94,22 @@ mod tests {
         fn get_resource(&self) -> Response {
 
             self.get_url(&format!("{}/resource", self.get_base_url()))
+        }
+
+        /// Example of "per resource implementation" method to PUT content.
+        ///
+        /// # Returns:
+        ///
+        /// reqwest response
+        fn update_resource(
+            &self,
+            body: &str,
+        ) -> Response {
+
+            self.put_xml(
+                &format!("{}/resource", self.get_base_url()),
+                body,
+            )
         }
     }
 
@@ -176,6 +194,20 @@ mod tests {
     }
 
     #[test]
+    fn test_assert_204() {
+
+        const API: &str = "/resource";
+        let _m = mock("POST", API)
+            .with_status(204)
+            .create();
+
+        let client = Client::new();
+        let response = client.post_body_resource("raw body");
+
+        response.assert_204();
+    }
+
+    #[test]
     fn test_assert_404() {
 
         const API: &str = "/resource";
@@ -201,5 +233,21 @@ mod tests {
         let response = client.get_resource();
 
         response.assert_500();
+    }
+
+    #[test]
+    fn test_put_xml() {
+
+        const API: &str = "/resource";
+        let _m = mock("PUT", API)
+            .with_status(200)
+            .create();
+
+        let client = Client::new();
+
+        let xml = "<key>value</key>";
+        let response = client.update_resource(&xml);
+
+        response.assert_200();
     }
 }

@@ -24,6 +24,8 @@ pub trait ClientHandler {
     fn post_json(&self, url: &str, json: &HashMap<&str, &str>) -> Response;
 
     fn post_body(&self, url: &str, body: &str) -> Response;
+
+    fn put_xml(&self, url: &str, body: &str) -> Response;
 }
 
 pub trait ResponseHandler {
@@ -31,6 +33,8 @@ pub trait ResponseHandler {
     fn assert_200(&self);
 
     fn assert_201(&self);
+
+    fn assert_204(&self);
 
     fn assert_400(&self);
 
@@ -94,6 +98,25 @@ impl ClientHandler for Client {
             .send()
             .unwrap()
     }
+
+    /// Perform a PUT request to send a XML body and returns it result
+    ///
+    /// # Args:
+    ///
+    /// `url` - the suffix of the URL
+    /// `body` - the body data to send (XML format)
+    fn put_xml(
+        &self,
+        url: &str,
+        body: &str,
+    ) -> Response {
+
+        self.put(url)
+            .body(body.to_string())
+            .header(ContentType::xml())
+            .send()
+            .unwrap()
+    }
 }
 
 impl ResponseHandler for Response {
@@ -113,6 +136,15 @@ impl ResponseHandler for Response {
         assert_eq!(
             self.status(),
             StatusCode::Created,
+        );
+    }
+
+    /// Assertion that checks the response status code is 204
+    fn assert_204(&self) {
+
+        assert_eq!(
+            self.status(),
+            StatusCode::NoContent,
         );
     }
 
