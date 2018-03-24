@@ -42,6 +42,8 @@ mod tests {
         fn get_resource(&self) -> Response;
 
         fn update_resource(&self, body: &str) -> Response;
+
+        fn update_resource_text(&self, text: &str) -> Response;
     }
 
     impl ResourceHandler for Client {
@@ -107,6 +109,22 @@ mod tests {
         ) -> Response {
 
             self.put_xml(
+                &format!("{}/resource", self.get_base_url()),
+                body,
+            )
+        }
+
+        /// Example of "per resource implementation" method to PUT text content.
+        ///
+        /// # Returns:
+        ///
+        /// reqwest response
+        fn update_resource_text(
+            &self,
+            body: &str,
+        ) -> Response {
+
+            self.put_text(
                 &format!("{}/resource", self.get_base_url()),
                 body,
             )
@@ -275,6 +293,20 @@ mod tests {
 
         let xml = "<key>value</key>";
         let response = client.update_resource(&xml);
+
+        response.assert_200();
+    }
+
+    #[test]
+    fn test_put_text() {
+
+        const API: &str = "/resource";
+        let _m = mock("PUT", API)
+            .with_status(200)
+            .create();
+
+        let client = Client::new();
+        let response = client.update_resource_text("text");
 
         response.assert_200();
     }
