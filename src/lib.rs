@@ -40,6 +40,8 @@ pub trait ResponseHandler {
 
     fn assert_401(&self);
 
+    fn assert_403(&self);
+
     fn assert_404(&self);
 
     fn assert_409(&self);
@@ -165,6 +167,15 @@ impl ResponseHandler for Response {
         assert_eq!(
             self.status(),
             StatusCode::Unauthorized,
+        );
+    }
+
+    /// Assertion that checks the response status code is 403
+    fn assert_403(&self) {
+
+        assert_eq!(
+            self.status(),
+            StatusCode::Forbidden,
         );
     }
 
