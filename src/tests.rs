@@ -208,6 +208,20 @@ mod tests {
     }
 
     #[test]
+    fn test_assert_401() {
+
+        const API: &str = "/resource";
+        let _m = mock("GET", API)
+            .with_status(401)
+            .create();
+
+        let client = Client::new();
+        let response = client.get_resource();
+
+        response.assert_401();
+    }
+
+    #[test]
     fn test_assert_404() {
 
         const API: &str = "/resource";
