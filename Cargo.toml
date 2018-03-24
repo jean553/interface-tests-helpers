@@ -7,10 +7,10 @@ description = "HTTP interface tests helpers and routines"
 license = "MIT"
 
 [dependencies]
-reqwest = "*"
+reqwest = "0.8.5"
 
 [dev-dependencies]
-mockito = "*"
+mockito = "0.9.1"
 
 [lib]
 name = "interface_tests_helpers"
