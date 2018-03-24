@@ -26,6 +26,8 @@ pub trait ClientHandler {
     fn post_body(&self, url: &str, body: &str) -> Response;
 
     fn put_xml(&self, url: &str, body: &str) -> Response;
+
+    fn put_text(&self, url: &str, text: &str) -> Response;
 }
 
 pub trait ResponseHandler {
@@ -103,7 +105,7 @@ impl ClientHandler for Client {
             .unwrap()
     }
 
-    /// Perform a PUT request to send a XML body and returns it result
+    /// Perform a PUT request to send a XML body and returns its result
     ///
     /// # Args:
     ///
@@ -118,6 +120,25 @@ impl ClientHandler for Client {
         self.put(url)
             .body(body.to_string())
             .header(ContentType::xml())
+            .send()
+            .unwrap()
+    }
+
+    /// Perform a PUT request to send a text body and returns its result
+    ///
+    /// # Args:
+    ///
+    /// `url` - the suffix of the URL
+    /// `text` - the text to upload
+    fn put_text(
+        &self,
+        url: &str,
+        text: &str,
+    ) -> Response {
+
+        self.put(url)
+            .body(text.to_string())
+            .header(ContentType::plaintext())
             .send()
             .unwrap()
     }
