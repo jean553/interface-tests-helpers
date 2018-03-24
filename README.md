@@ -35,75 +35,71 @@ cargo rustdoc -- --document-private-items
 ```rust
 extern crate rust_interface_tests_helper;
 
-#[cfg(test)]
-mod tests {
+use rust_interface_tests_helper::{
+    ClientHandler,
+    ResponseHandler,
+    HasBaseUrl,
+};
 
-    use lib::{
-        ClientHandler,
-        ResponseHandler,
-        HasBaseUrl,
-    };
+use reqwest::{
+    Client,
+    Response,
+};
 
-    use reqwest::{
-        Client,
-        Response,
-    };
+use std::collections::HashMap;
 
-    use std::collections::HashMap;
+impl HasBaseUrl for Client {
 
-    impl HasBaseUrl for Client {
-
-        /// Returns the service base URL.
-        ///
-        /// # Returns:
-        ///
-        /// the service base URL.
-        fn get_base_url(&self) -> &str {
-            "http://localhost:1234"
-        }
+    /// Returns the service base URL.
+    ///
+    /// # Returns:
+    ///
+    /// the service base URL.
+    fn get_base_url(&self) -> &str {
+        "http://localhost:1234"
     }
+}
 
-    trait ResourceHandler {
+trait ResourceHandler {
 
-        fn post_resource(&self, json: &HashMap<&str, &str>) -> Response;
+    fn post_resource(&self, json: &HashMap<&str, &str>) -> Response;
+}
+
+impl ResourceHandler for Client {
+
+    /// Example of "per resource implementation" method.
+    ///
+    /// # Arguments:
+    ///
+    /// `json` - the json data to send
+    fn post_resource(
+        &self,
+        json: &HashMap<&str, &str>,
+    ) -> Response {
+
+        return self.post_json(
+            "/resource",
+            json,
+        );
     }
+}
 
-    impl ResourceHandler for Client {
+#[test]
+fn test_post_resource() {
 
-        /// Example of "per resource implementation" method.
-        ///
-        /// # Arguments:
-        ///
-        /// `json` - the json data to send
-        fn post_resource(
-            &self,
-            json: &HashMap<&str, &str>,
-        ) -> Response {
+    let mut json: HashMap<&str, &str> = HashMap::new();
+    json.insert("key", "value");
 
-            return self.post_json(
-                "/resource",
-                json,
-            );
-        }
-    }
+    let client = Client::new();
+    let response = client.post_resource(&json);
 
-    #[test]
-    fn test_post() {
-
-        let mut json: HashMap<&str, &str> = HashMap::new();
-        json.insert("key", "value");
-
-        let client = Client::new();
-        let response = client.post_resource(&json);
-
-        response.assert_201();
-    }
+    response.assert_201();
 }
 ```
 
 ## Tests
 
-One thread only must be used (the mocked URL is updated for every test but remains the same every time).
+One thread only must be used:
 
 ```rust
 cargo test -- --test-threads=1
