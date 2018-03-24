@@ -3,6 +3,8 @@ name = "interface-tests-helpers"
 version = "0.1.0"
 authors = ["jean553"]
 repository = "https://github.com/jean553/interface-tests-helpers"
+description = "HTTP interface tests helpers and routines"
+license = "MIT"
 
 [dependencies]
 reqwest = "*"
