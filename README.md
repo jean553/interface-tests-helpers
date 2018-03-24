@@ -1,6 +1,6 @@
 [![Build Status](https://travis-ci.org/jean553/interface-tests-helpers.svg?branch=master)](https://travis-ci.org/jean553/interface-tests-helpers)
 
-# rust-interface-tests-helper
+# interface-tests-helpers
 
 Routines for HTTP interface testing in Rust.
 
@@ -33,9 +33,9 @@ cargo rustdoc -- --document-private-items
 ## Usage
 
 ```rust
-extern crate rust_interface_tests_helper;
+extern crate interface_tests_helpers;
 
-use rust_interface_tests_helper::{
+use interface_tests_helpers::{
     ClientHandler,
     ResponseHandler,
     HasBaseUrl,
