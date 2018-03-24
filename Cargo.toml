@@ -1,7 +1,7 @@
 [package]
 name = "interface-tests-helper"
 version = "0.1.0"
-authors = ["vagrant"]
+authors = ["jean553"]
 repository = "https://github.com/jean553/rust-interface-tests-helper"
 
 [dependencies]
