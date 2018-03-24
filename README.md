@@ -1,5 +1,7 @@
 [![Build Status](https://travis-ci.org/jean553/interface-tests-helpers.svg?branch=master)](https://travis-ci.org/jean553/interface-tests-helpers)
 
+[![Current Crates.io Version](https://img.shields.io/crates/v/interface-tests-helpers.svg)](https://crates.io/crates/interface-tests-helpers)
+
 # interface-tests-helpers
 
 Routines for HTTP interface testing in Rust.
