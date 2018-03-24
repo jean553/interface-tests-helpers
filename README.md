@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/jean553/rust-interface-tests-helper.svg?branch=master)](https://travis-ci.org/jean553/rust-interface-tests-helper)
+[![Build Status](https://travis-ci.org/jean553/interface-tests-helpers.svg?branch=master)](https://travis-ci.org/jean553/interface-tests-helpers)
 
 # rust-interface-tests-helper
 
