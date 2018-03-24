@@ -1,5 +1,5 @@
 [package]
-name = "rust-interface-tests-helper"
+name = "interface-tests-helper"
 version = "0.1.0"
 authors = ["vagrant"]
 repository = "https://github.com/jean553/rust-interface-tests-helper"
@@ -11,5 +11,5 @@ reqwest = "*"
 mockito = "*"
 
 [lib]
-name = "rust_interface_tests_helper"
+name = "interface_tests_helper"
 path = "src/lib.rs"
