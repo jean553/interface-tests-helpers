@@ -34,6 +34,13 @@ cargo rustdoc -- --document-private-items
 
 ## Usage
 
+Cargo.toml:
+
+```
+[dev-dependencies]
+interface-tests-helpers = "*"
+```
+
 ```rust
 extern crate interface_tests_helpers;
 
