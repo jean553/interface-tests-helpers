@@ -8,8 +8,6 @@ use reqwest::{
     StatusCode,
 };
 
-use reqwest::header::ContentType;
-
 use std::collections::HashMap;
 
 pub trait HasBaseUrl {
@@ -100,7 +98,10 @@ impl ClientHandler for Client {
 
         self.post(url)
             .body(body.to_string())
-            .header(ContentType::plaintext())
+            .header(
+                reqwest::header::CONTENT_TYPE,
+                "text/plain"
+            )
             .send()
             .unwrap()
     }
@@ -119,7 +120,10 @@ impl ClientHandler for Client {
 
         self.put(url)
             .body(body.to_string())
-            .header(ContentType::xml())
+            .header(
+                reqwest::header::CONTENT_TYPE,
+                "application/xml"
+            )
             .send()
             .unwrap()
     }
@@ -138,7 +142,10 @@ impl ClientHandler for Client {
 
         self.put(url)
             .body(text.to_string())
-            .header(ContentType::plaintext())
+            .header(
+                reqwest::header::CONTENT_TYPE,
+                "text/plain"
+            )
             .send()
             .unwrap()
     }
@@ -151,7 +158,7 @@ impl ResponseHandler for Response {
 
         assert_eq!(
             self.status(),
-            StatusCode::Ok,
+            StatusCode::OK,
         );
     }
 
@@ -160,7 +167,7 @@ impl ResponseHandler for Response {
 
         assert_eq!(
             self.status(),
-            StatusCode::Created,
+            StatusCode::CREATED,
         );
     }
 
@@ -169,7 +176,7 @@ impl ResponseHandler for Response {
 
         assert_eq!(
             self.status(),
-            StatusCode::NoContent,
+            StatusCode::NO_CONTENT,
         );
     }
 
@@ -178,7 +185,7 @@ impl ResponseHandler for Response {
 
         assert_eq!(
             self.status(),
-            StatusCode::BadRequest,
+            StatusCode::BAD_REQUEST,
         );
     }
 
@@ -187,7 +194,7 @@ impl ResponseHandler for Response {
 
         assert_eq!(
             self.status(),
-            StatusCode::Unauthorized,
+            StatusCode::UNAUTHORIZED,
         );
     }
 
@@ -196,7 +203,7 @@ impl ResponseHandler for Response {
 
         assert_eq!(
             self.status(),
-            StatusCode::Forbidden,
+            StatusCode::FORBIDDEN,
         );
     }
 
@@ -205,7 +212,7 @@ impl ResponseHandler for Response {
 
         assert_eq!(
             self.status(),
-            StatusCode::NotFound,
+            StatusCode::NOT_FOUND,
         );
     }
 
@@ -214,7 +221,7 @@ impl ResponseHandler for Response {
 
         assert_eq!(
             self.status(),
-            StatusCode::Conflict,
+            StatusCode::CONFLICT,
         );
     }
 
@@ -223,7 +230,7 @@ impl ResponseHandler for Response {
 
         assert_eq!(
             self.status(),
-            StatusCode::InternalServerError,
+            StatusCode::INTERNAL_SERVER_ERROR,
         );
     }
 }

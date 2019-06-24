@@ -1,16 +1,16 @@
 [package]
 name = "interface-tests-helpers"
-version = "0.1.0"
+version = "0.2.0"
 authors = ["jean553"]
 repository = "https://github.com/jean553/interface-tests-helpers"
 description = "HTTP interface tests helpers and routines"
 license = "MIT"
 
 [dependencies]
-reqwest = "0.8.5"
+reqwest = "0.9.18"
 
 [dev-dependencies]
-mockito = "0.9.1"
+mockito = "0.17.1"
 
 [lib]
 name = "interface_tests_helpers"
